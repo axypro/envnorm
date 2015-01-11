@@ -6,6 +6,7 @@
  * @author Oleg Grigoriev <go.vasac@gmail.com>
  * @license https://raw.github.com/axypro/envnorm/master/LICENSE MIT
  * @link https://github.com/axypro/envnorm repository
+ * @link https://packagist.org/packages/axy/envnorm on packagist.org
  * @uses PHP5.4+
  */
 
