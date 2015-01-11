@@ -58,7 +58,7 @@ class NativeIniSetterTest extends \PHPUnit_Framework_TestCase
     public function testTimezone()
     {
         $setter = new NativeIniSetter();
-        $value = date_default_timezone_get();
+        $value = @date_default_timezone_get();
         $newValue = 'UTC';
         if ($value === $newValue) {
             $newValue = 'Europe/London';

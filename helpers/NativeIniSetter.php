@@ -56,7 +56,7 @@ class NativeIniSetter extends BaseIniSetter
      */
     public function getTimezone()
     {
-        return date_default_timezone_get();
+        return @date_default_timezone_get();
     }
 
     /**

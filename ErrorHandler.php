@@ -54,7 +54,7 @@ class ErrorHandler
         if ($this->allowSuppression && ((int)$this->ini->getErrorReporting() === 0)) {
             return;
         }
-        $error = new Error($errno, $errstr, $errfile, $errline, $errcontext);
+        $error = new Error($errno, $errstr, $errfile, $errline, $errcontext, $this->exceptionClass);
         $error->raise();
     }
 

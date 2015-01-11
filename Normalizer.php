@@ -31,8 +31,8 @@ class Normalizer
      */
     public function normalize()
     {
-        $this->normalizeErrors();
         $this->normalizeTimezone();
+        $this->normalizeErrors();
         $this->normalizeEncoding();
         $this->normalizeOptions();
     }
@@ -53,10 +53,10 @@ class Normalizer
      */
     private function loadDI(array $di)
     {
-        if ($di['ini']) {
-            $this->ini = $di['ini'];
-        } else {
+        if (empty($di['ini'])) {
             $this->ini = new NativeIniSetter();
+        } else {
+            $this->ini = $di['ini'];
         }
     }
 
@@ -66,7 +66,7 @@ class Normalizer
     private function normalizeErrors()
     {
         $errors = $this->config['errors'];
-        if (!$errors) {
+        if (!is_array($errors)) {
             return;
         }
         if ($errors['level'] !== null) {
@@ -93,11 +93,11 @@ class Normalizer
     private function normalizeTimezone()
     {
         $datetime = $this->config['datetime'];
-        if (!$datetime) {
+        if (!is_array($datetime)) {
             return;
         }
         if ($datetime['timezone']) {
-            $current = $this->ini->getTimezone();
+            $current = $this->ini->get('date.timezone');
             if ($current !== $datetime['timezone']) {
                 if ((!$current) || (!$datetime['keepTimezone'])) {
                     $this->ini->setTimezone($datetime['timezone']);
