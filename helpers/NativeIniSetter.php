@@ -68,4 +68,20 @@ class NativeIniSetter extends BaseIniSetter
             mb_internal_encoding($encoding);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setErrorHandler($handler, $level)
+    {
+        set_error_handler($handler, $level);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExceptionHandler($handler)
+    {
+        set_exception_handler($handler);
+    }
 }

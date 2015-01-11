@@ -39,7 +39,35 @@ class TestIniSetter extends BaseIniSetter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setErrorHandler($handler, $level)
+    {
+        $this->errorHandler = $handler;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getErrorHandler()
+    {
+        return $this->errorHandler;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExceptionHandler($handler)
+    {
+    }
+
+    /**
      * @var array
      */
     private $options;
+
+    /**
+     * @var callable
+     */
+    private $errorHandler;
 }

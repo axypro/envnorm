@@ -61,4 +61,19 @@ interface IIniSetter
      * @param string $encoding
      */
     public function setEncoding($encoding);
+
+    /**
+     * Sets an error handler
+     *
+     * @param callable $handler
+     * @param int $level
+     */
+    public function setErrorHandler($handler, $level);
+
+    /**
+     * Sets an exception handler
+     *
+     * @param callable $handler
+     */
+    public function setExceptionHandler($handler);
 }

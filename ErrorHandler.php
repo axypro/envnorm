@@ -38,7 +38,7 @@ class ErrorHandler
      */
     public function register($level)
     {
-        set_error_handler($this, $level);
+        $this->ini->setErrorHandler($this, $level);
     }
 
     /**
