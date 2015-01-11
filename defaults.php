@@ -19,6 +19,8 @@ return [
         'ErrorException' => 'ErrorException',
         /* Exception handler (callback) NULL - not used */
         'exceptionHandler' => null,
+        /* Allow errors suppression by @-operator */
+        'allowSuppression' => true,
     ],
 
     'datetime' => [
