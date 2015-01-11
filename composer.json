@@ -1,0 +1,27 @@
+{
+    "name": "axy/envnorm",
+    "type": "library",
+    "description": "Initial normalization of the environment",
+    "keywords": [
+        "error_reporting",
+        "error_handler",
+        "timezone"
+    ],
+    "homepage": "https://github.com/axypro/envnorm",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Grigoriev",
+            "email": "go.vasac@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "axy\\envnorm\\": ""
+        }
+    },
+    "target-dir": ""
+}
