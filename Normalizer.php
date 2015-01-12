@@ -22,7 +22,7 @@ class Normalizer
      */
     public function __construct(array $config = null, array $di = null)
     {
-        $this->config = Config::create($config);
+        $this->config = Config::create($config ?: []);
         $this->loadDI($di ?: []);
     }
 

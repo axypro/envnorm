@@ -64,4 +64,10 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(10, $ini->get('x'));
         $this->assertSame(null, $ini->get('y'));
     }
+
+    public function testEmptyCustomConfig()
+    {
+        $normalizer = Normalizer::createInstance();
+        $this->assertInstanceOf('axy\envnorm\Normalizer', $normalizer);
+    }
 }
