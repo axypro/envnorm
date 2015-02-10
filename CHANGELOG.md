@@ -1,6 +1,7 @@
 ### 0.1.2 (2015.02.10)
 
 * Refactoring
+* Remove target-dir from composer.json
 
 ### 0.1.1 (2015.01.12)
 
