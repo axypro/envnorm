@@ -9,7 +9,7 @@ namespace axy\envnorm\helpers;
 /**
  * The basic implementation of IIniSetter
  */
-abstract class BaseIniSetter
+abstract class BaseIniSetter implements IIniSetter
 {
     /**
      * {@inheritdoc}

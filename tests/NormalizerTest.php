@@ -25,6 +25,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
         $handler = $ini->getErrorHandler();
         $this->assertInstanceOf('axy\envnorm\ErrorHandler', $handler);
         $e = null;
+        $line = null;
         try {
             $line = __LINE__ + 1;
             $handler(E_NOTICE, 'Error', __FILE__, $line, []);
@@ -53,6 +54,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Europe/London', $ini->getTimezone());
         $handler = $ini->getErrorHandler();
         $this->assertInstanceOf('axy\envnorm\ErrorHandler', $handler);
+        $line = null;
         $e = null;
         try {
             $line = __LINE__ + 1;

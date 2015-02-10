@@ -1,3 +1,7 @@
+### 0.1.2 (2015.02.10)
+
+* Refactoring
+
 ### 0.1.1 (2015.01.12)
 
 * Fixed bug (optional `config` in `Normalizer::__construct`)
