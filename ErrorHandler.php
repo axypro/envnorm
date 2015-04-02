@@ -17,7 +17,7 @@ class ErrorHandler
     /**
      * The constructor
      *
-     * @param null $exceptionClass
+     * @param string $exceptionClass
      * @param bool $allowSuppression
      * @param \axy\envnorm\helpers\IIniSetter $ini
      */

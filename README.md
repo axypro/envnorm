@@ -3,7 +3,7 @@
 Initial normalization of the environment
  
  * GitHub: [axypro/envnorm](https://github.com/axypro/envnorm)
- * Composer: [axypro/envnorm](https://packagist.org/packages/axy/envnorm)
+ * Composer: [axy/envnorm](https://packagist.org/packages/axy/envnorm)
 
 PHP 5.4+
 
