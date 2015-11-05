@@ -7,7 +7,7 @@
 namespace axy\envnorm;
 
 use axy\envnorm\helpers\Config;
-use axy\envnorm\helpers\NativeIniSetter;
+use axy\env\Factory as EnvFactory;
 
 /**
  * The environment normalizer
@@ -18,12 +18,12 @@ class Normalizer
      * The constructor
      *
      * @param array $config [optional]
-     * @param array $di [optional]
+     * @param mixed $env [optional]
      */
-    public function __construct(array $config = null, array $di = null)
+    public function __construct(array $config = null, $env = null)
     {
         $this->config = Config::create($config ?: []);
-        $this->loadDI($di ?: []);
+        $this->env = EnvFactory::create($env);
     }
 
     /**
@@ -49,18 +49,6 @@ class Normalizer
     }
 
     /**
-     * @param array $di
-     */
-    private function loadDI(array $di)
-    {
-        if (empty($di['ini'])) {
-            $this->ini = new NativeIniSetter();
-        } else {
-            $this->ini = $di['ini'];
-        }
-    }
-
-    /**
      * Normalizes the error handling
      */
     private function normalizeErrors()
@@ -70,20 +58,20 @@ class Normalizer
             return;
         }
         if ($errors['level'] !== null) {
-            $this->ini->setErrorReporting($errors['level']);
+            $this->env->error_reporting($errors['level']);
         }
         if ($errors['display'] !== null) {
-            $this->ini->set('display_errors', $errors['display'] ? 1 : 0);
+            $this->env->ini_set('display_errors', $errors['display'] ? 1 : 0);
         }
         $handler = $errors['handler'];
         if ($handler) {
             if ($handler === true) {
-                $handler = new ErrorHandler($errors['ErrorException'], $errors['allowSuppression'], $this->ini);
+                $handler = new ErrorHandler($errors['ErrorException'], $errors['allowSuppression'], $this->env);
             }
-            $this->ini->setErrorHandler($handler, $errors['level']);
+            $this->env->set_error_handler($handler, $errors['level']);
         }
         if ($errors['exceptionHandler']) {
-            $this->ini->setExceptionHandler($errors['exceptionHandler']);
+            $this->env->set_exception_handler($errors['exceptionHandler']);
         }
     }
 
@@ -97,10 +85,10 @@ class Normalizer
             return;
         }
         if ($datetime['timezone']) {
-            $current = $this->ini->get('date.timezone');
+            $current = $this->env->ini_get('date.timezone');
             if ($current !== $datetime['timezone']) {
                 if ((!$current) || (!$datetime['keepTimezone'])) {
-                    $this->ini->setTimezone($datetime['timezone']);
+                    $this->env->date_default_timezone_set($datetime['timezone']);
                 }
             }
         }
@@ -112,7 +100,9 @@ class Normalizer
     private function normalizeEncoding()
     {
         if ($this->config['encoding']) {
-            $this->ini->setEncoding($this->config['encoding']);
+            if ($this->env->isFunctionExists('mb_internal_encoding')) {
+                $this->env->__call('mb_internal_encoding', [$this->config['encoding']]);
+            }
         }
     }
 
@@ -125,9 +115,9 @@ class Normalizer
         if (empty($options)) {
             return;
         }
-        $ini = $this->ini;
+        $env = $this->env;
         foreach ($options as $k => $v) {
-            $ini->set($k, $v);
+            $env->ini_set($k, $v);
         }
     }
 
@@ -137,7 +127,7 @@ class Normalizer
     private $config;
 
     /**
-     * @var \axy\envnorm\helpers\IIniSetter
+     * @var \axy\env\Env
      */
-    private $ini;
+    private $env;
 }

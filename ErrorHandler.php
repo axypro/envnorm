@@ -6,7 +6,7 @@
 
 namespace axy\envnorm;
 
-use axy\envnorm\helpers\NativeIniSetter;
+use axy\env\Factory as EnvFactory;
 
 /**
  * The error handler
@@ -19,16 +19,13 @@ class ErrorHandler
      *
      * @param string $exceptionClass
      * @param bool $allowSuppression
-     * @param \axy\envnorm\helpers\IIniSetter $ini
+     * @param mixed $env
      */
-    public function __construct($exceptionClass = null, $allowSuppression = true, $ini = null)
+    public function __construct($exceptionClass = null, $allowSuppression = true, $env = null)
     {
         $this->exceptionClass = $exceptionClass;
         $this->allowSuppression = $allowSuppression;
-        if ($ini === null) {
-            $ini = new NativeIniSetter();
-        }
-        $this->ini = $ini;
+        $this->env = EnvFactory::create($env);
     }
 
     /**
@@ -38,7 +35,7 @@ class ErrorHandler
      */
     public function register($level)
     {
-        $this->ini->setErrorHandler($this, $level);
+        $this->env->set_error_handler($this, $level);
     }
 
     /**
@@ -51,7 +48,7 @@ class ErrorHandler
      */
     public function __invoke($errno, $errstr, $errfile, $errline, $errcontext)
     {
-        if ($this->allowSuppression && ((int)$this->ini->getErrorReporting() === 0)) {
+        if ($this->allowSuppression && ((int)$this->env->error_reporting() === 0)) {
             return;
         }
         $error = new Error($errno, $errstr, $errfile, $errline, $errcontext, $this->exceptionClass);
@@ -69,7 +66,7 @@ class ErrorHandler
     private $allowSuppression;
 
     /**
-     * @var \axy\envnorm\helpers\IIniSetter
+     * @var \axy\env\Env
      */
-    private $ini;
+    private $env;
 }

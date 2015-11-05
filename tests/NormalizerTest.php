@@ -7,7 +7,7 @@
 namespace axy\envnorm\tests;
 
 use axy\envnorm\Normalizer;
-use axy\envnorm\helpers\TestIniSetter;
+use axy\envnorm\tests\tst\TestEnv;
 
 /**
  * coversDefaultClass axy\envnorm\Normalizer
@@ -16,13 +16,13 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefaults()
     {
-        $ini = new TestIniSetter(['display_errors' => false]);
-        $normalizer = new Normalizer([], ['ini' => $ini]);
+        $env = new TestEnv(['display_errors' => true]);
+        $normalizer = new Normalizer([], $env);
         $normalizer->normalize();
-        $this->assertSame('UTF-8', $ini->get('mbstring.internal_encoding'));
-        $this->assertSame('UTC', $ini->getTimezone());
-        $this->assertSame(E_ALL, $ini->getErrorReporting());
-        $handler = $ini->getErrorHandler();
+        $this->assertSame('UTF-8', $env->ini_get('mbstring.internal_encoding'));
+        $this->assertSame('UTC', $env->ini_get('date.timezone'));
+        $this->assertSame(E_ALL, $env->error_reporting());
+        $handler = $env->getErrorHandler();
         $this->assertInstanceOf('axy\envnorm\ErrorHandler', $handler);
         $e = null;
         $line = null;
@@ -32,13 +32,12 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
         } catch (\ErrorException $e) {
         }
         $this->assertSame($line, $e->getLine());
-        $this->assertSame(false, $ini->get('display_errors'));
-        $this->assertSame(null, $ini->get('x'));
+        $this->assertSame(true, $env->ini_get('display_errors'));
+        $this->assertSame(false, $env->ini_get('x'));
     }
 
     public function testCustom()
     {
-        $ini = new TestIniSetter(['display_errors' => false, 'date.timezone' => 'Europe/London']);
         $config = [
             'errors' => [
                 'display' => true,
@@ -48,11 +47,12 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
                 'x' => 10,
             ],
         ];
-        $normalizer = new Normalizer($config, ['ini' => $ini]);
+        $env = new TestEnv(['display_errors' => false, 'date.timezone' => 'Europe/London']);
+        $normalizer = new Normalizer($config, $env);
         $normalizer->normalize();
-        $this->assertSame('Windows-1252', $ini->get('mbstring.internal_encoding'));
-        $this->assertSame('Europe/London', $ini->getTimezone());
-        $handler = $ini->getErrorHandler();
+        $this->assertSame('Windows-1252', $env->ini_get('mbstring.internal_encoding'));
+        $this->assertSame('Europe/London', $env->date_default_timezone_get());
+        $handler = $env->getErrorHandler();
         $this->assertInstanceOf('axy\envnorm\ErrorHandler', $handler);
         $line = null;
         $e = null;
@@ -62,9 +62,9 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
         } catch (\ErrorException $e) {
         }
         $this->assertSame($line, $e->getLine());
-        $this->assertSame(true, (bool)$ini->get('display_errors'));
-        $this->assertSame(10, $ini->get('x'));
-        $this->assertSame(null, $ini->get('y'));
+        $this->assertSame(true, (bool)$env->ini_get('display_errors'));
+        $this->assertSame(10, $env->ini_get('x'));
+        $this->assertSame(false, $env->ini_get('y'));
     }
 
     public function testEmptyCustomConfig()
