@@ -1,3 +1,7 @@
+### 0.1.4 (10.11.2015)
+
+* Exclude tests, docs and etc from GitHub zip and Composer package dist
+
 ### 0.1.3 (5.11.2015)
 
 * Use [axy/env](https://github.com/axypro/env)
