@@ -1,3 +1,7 @@
+### dev-master
+
+* Travis
+
 ### 0.1.4 (10.11.2015)
 
 * Exclude tests, docs and etc from GitHub zip and Composer package dist
