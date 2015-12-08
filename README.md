@@ -1,19 +1,21 @@
-# axy\envnorm 
+# axy\envnorm
+
+ Initial normalization of the environment
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/axy/envnorm.svg?style=flat-square)](https://packagist.org/packages/axy/envnorm)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat-square)](https://php.net/)
 [![Build Status](https://img.shields.io/travis/axypro/envnorm/master.svg?style=flat-square)](https://travis-ci.org/axypro/envnorm)
+[![Coverage Status](https://coveralls.io/repos/axypro/envnorm/badge.svg?branch=master&service=github)](https://coveralls.io/github/axypro/envnorm?branch=master)
+[![License](https://poser.pugx.org/axy/envnorm/license)](LICENSE)
 
-Initial normalization of the environment
- 
- * GitHub: [axypro/envnorm](https://github.com/axypro/envnorm)
- * Composer: [axy/envnorm](https://packagist.org/packages/axy/envnorm)
+* The library does not require any dependencies (except composer packages).
+* Tested on PHP 5.4+, PHP 7, HHVM (on Linux).
+* Install: `composer require axy/envnorm`.
+* License: [MIT](LICENSE).
 
-PHP 5.4+
+### Documentation
 
-Library does not require any dependencies.
-
-## How to use
+#### How to use
 
 ```php
 use axy\envnorm\Normalizer;
@@ -41,7 +43,7 @@ Normalizer::createInstance($config)->normalize();
 
 The library is intended for rearrangement of the PHP-environment before the application start.
 
-## The configuration
+#### The configuration
 
 The default configuration is this
 
@@ -78,7 +80,7 @@ $custom = [
 ];
 ```
 
-## Errors
+#### Errors
 
 Default means the following behavior:
 
@@ -87,17 +89,17 @@ Default means the following behavior:
 
 The following describes the fields of the configuration section `errors`.
 
-#### `level (int)`
+##### `level (int)`
 
 [The bitmask](http://php.net/manual/en/errorfunc.constants.php) of handled error types.
 By default is `E_ALL`.
 
-#### `display (boolean)`
+##### `display (boolean)`
 
 The value for the `display_errors` option.
 By default is `NULL`: a script shouldn't set `display_errors`, it must be set in php.ini (depends on the platform). 
 
-#### `handler (callback)`
+##### `handler (callback)`
 
 The callback for the error handler (see [set_error_handler()](http://php.net/manual/en/function.set-error-handler.php)).
 IF `NULL` then do not set a custom handler.
@@ -110,13 +112,13 @@ $a = [];
 $a['a'] = $a['b']; // ErrorException
 ```
 
-#### `ErrorException (string)`
+##### `ErrorException (string)`
 
 The library `handler` uses this option.
 This is the class name of the exception.
 It is `ErrorException` by default and can be a child of `ErrorException`.
  
-#### `allowSuppression (bool)`
+##### `allowSuppression (bool)`
 
 This option allows suppression of error by @-operator.
 
@@ -128,30 +130,30 @@ $a['a'] = @$a['b'];
 The default (`allowSuppression=TRUE`) it do not lead to the exception.
 If set this option to `FALSE` the exception will be thrown regardless of `@`.
 
-#### `exceptionHandler (callback)`
+##### `exceptionHandler (callback)`
 
 The top level handler for exceptions.
 See [set_exception_handler()](http://php.net/manual/en/function.set-exception-handler.php).
 
 The default is `NULL`: the handler will not set.
 
-## Timezone
+#### Timezone
 
-#### `datetime.timezone (string)`
+##### `datetime.timezone (string)`
 
 The default timezone.
 `UTC` by default.
 
-#### `datetime.keepTimezone (bool)`
+##### `datetime.keepTimezone (bool)`
 
 The default (`keepTimezone=TRUE`) remains the timezone from php.ini.
 `datetime.timezone` only used if the timezone is not defined in php.ini. 
 
-## Encoding
+#### Encoding
 
 The `encoding` option used in `mbstring` (if it is installed).
 
-## Options
+#### Options
 
 All other PHP-options that should be changed.
 
